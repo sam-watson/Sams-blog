@@ -46,6 +46,16 @@
  */
 @tailwind utilities;
 
+.abs-center-circle {
+  margin: auto 0;
+  left: 29vw;
+  width: 40vw;
+  height: 38vw;
+}
+
+.bg-fog {
+  background-color: rgba(102,102,102,0.3);
+}
 /**
  * Here you would add any custom utilities you need that don't come out of the
  * box with Tailwind.
