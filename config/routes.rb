@@ -5,5 +5,7 @@ Rails.application.routes.draw do
     resources :comments
   end
 
+  resources :learn_accounting
+
   root 'welcome#index'
 end
