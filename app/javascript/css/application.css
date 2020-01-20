@@ -56,6 +56,11 @@
 .bg-fog {
   background-color: rgba(102,102,102,0.3);
 }
+
+.welcome {
+  background: url(/assets/background.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
 /**
  * Here you would add any custom utilities you need that don't come out of the
  * box with Tailwind.

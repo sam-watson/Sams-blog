@@ -1,0 +1,2 @@
+class LearnAccounting < ApplicationRecord
+end

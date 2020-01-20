@@ -1,0 +1,2 @@
+class LearnAccountingController < ApplicationController
+end
