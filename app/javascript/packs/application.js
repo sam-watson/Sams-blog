@@ -14,6 +14,8 @@ import Vue from 'vue/dist/vue.esm'
 
 import App from '../app.vue'
 Vue.component('app', App)
+// import TAccount from '../ttable.vue'
+// Vue.component('t-account', TAccount)
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
