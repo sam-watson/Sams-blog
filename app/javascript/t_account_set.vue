@@ -2,7 +2,7 @@
   <div class="container">
     <h1>{{ title }}</h1>
 
-    <t-account 
+    <t-account
       v-for="account in accounts"
       v-bind:key="account.id"
       v-bind:account="account"
@@ -19,9 +19,15 @@ export default {
     'title',
     'accounts',
   ],
-    
+
   data: function () {
-    return {      
+    return {
+    }
+  },
+
+  methods: {
+    updateLinkedAccounts(account) {
+      this.$emit('update-accounts', account)
     }
   },
 

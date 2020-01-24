@@ -12,7 +12,7 @@
           <input type="number" v-model="debit.amount" name="amount">
         </div>
       </div>
-      
+
       <div class="col credit-side">
         <div class="header">Credits</div>
         <div class="inputs" v-for="credit in credits" v-bind:key="credit.id">
@@ -36,16 +36,32 @@
 
     data: function () {
       return {
-        credits: [{
+        transactions: [
+          {
             id: 0,
             amount: 0,
+            type: 'debit',
           },
-        ],
-        debits: [{
+          {
             id: 0,
             amount: 0,
+            type: 'credit',
           },
         ],
+      }
+    },
+
+    computed: {
+      debits() {
+        return this.transactions.filter(e => e.type = 'debit')
+      }
+      credits() {
+        return this.transactions.filter(e => e.type = 'credit')
+      }
+    }
+    watch: {
+      trans() {
+
       }
     }
   }
@@ -81,16 +97,16 @@
   }
 
   input {
-    // border: 5px solid white; 
-    -webkit-box-shadow: 
+    // border: 5px solid white;
+    -webkit-box-shadow:
       inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1); 
-    -moz-box-shadow: 
+            0 0 16px rgba(0,0,0,0.1);
+    -moz-box-shadow:
       inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1); 
-    box-shadow: 
+            0 0 16px rgba(0,0,0,0.1);
+    box-shadow:
       inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1); 
+            0 0 16px rgba(0,0,0,0.1);
     padding: 5px;
     background: rgba(255,255,255,0.5);
     margin: 0 0 10px 0;
