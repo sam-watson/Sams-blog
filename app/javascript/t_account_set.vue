@@ -4,15 +4,17 @@
 
     <t-account
       v-for="account in accounts"
-      v-bind:key="account.id"
-      v-bind:account="account"
+      :key="account.id"
+      :name="account.name"
+      :transactions="account.transactions"
+      @account-changed="accountChanged"
     />
   </div>
 </template>
 
 <script>
-import TAccount from './t_account.vue'
-
+import TAccount from './t_account.vue';
+import uuid from 'uuid';
 
 export default {
   props: [
@@ -20,14 +22,17 @@ export default {
     'accounts',
   ],
 
-  data: function () {
-    return {
-    }
-  },
-
   methods: {
-    updateLinkedAccounts(account) {
-      this.$emit('update-accounts', account)
+    accountChanged(accountName) {
+      console.log('set')
+      this.$emit('update-linked-account', accountName)
+    },
+    updateAccount(accountName, newAmount) {
+      for (const account in this.accounts) {
+        if (account.name = accountName) {
+          account.transactions = [{id:uuid.v4(), amount: newAmount, side: 'debit'}];
+        }
+      }
     }
   },
 

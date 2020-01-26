@@ -1,23 +1,26 @@
 <template>
   <div>
-
-    <h2>{{ account.title }}</h2>
+    <h2>{{ name }}</h2>
 
     <div class="table">
 
       <div class="col debit-side">
         <div class="header">Debits</div>
         <div class="inputs" v-for="debit in debits" v-bind:key="debit.id">
+
+          <transaction :transaction="debit" @transaction-changed="transactionChanged"/>
           <!-- <p>{{debit.amount}}</p> -->
-          <input type="number" v-model="debit.amount" name="amount">
+          <!-- <input type="number" v-model="debit.amount" /> -->
         </div>
       </div>
 
       <div class="col credit-side">
         <div class="header">Credits</div>
         <div class="inputs" v-for="credit in credits" v-bind:key="credit.id">
+
+          <transaction :transaction="credit" />
           <!-- <p>{{credit.amount}}</p> -->
-          <input type="number" v-model="credit.amount" name="amount">
+          <!-- <input type="number" v-model="credit.amount" /> -->
         </div>
       </div>
 
@@ -27,44 +30,65 @@
 </template>
 
 <script>
-  export default {
-    name: "t-account",
+import Transaction from './transaction.vue';
+import uuid from 'uuid';
 
-    props: [
-      "account",
-    ],
+export default {  
+  name: "t-account",
 
-    data: function () {
-      return {
-        transactions: [
-          {
-            id: 0,
-            amount: 0,
-            type: 'debit',
-          },
-          {
-            id: 0,
-            amount: 0,
-            type: 'credit',
-          },
-        ],
+  props: {
+    name: String,
+    transactions: {
+      type: Array,
+      default: () => []
+        // {id:uuid.v4(), amount:0, side: 'debit'},
+        // {id:uuid.v4(), amount:0, side: 'credit'}
+      // ]
+    }
+  },
+
+  computed: {
+    debits() {
+      return [...this.transactions.filter(e => e.side == 'debit')];
+    },
+    credits() {
+      return [...this.transactions.filter(e => e.side == 'credit')];
+    }
+  },
+
+  methods: {
+    init() {
+      if (this.transactions = []) {
+        this.transactions = [
+          {id:uuid.v4(), amount:0, side: 'debit'},
+          {id:uuid.v4(), amount:0, side: 'credit'}
+        ]
       }
     },
-
-    computed: {
-      debits() {
-        return this.transactions.filter(e => e.type = 'debit')
-      }
-      credits() {
-        return this.transactions.filter(e => e.type = 'credit')
-      }
+    transactionChanged() {
+      console.log('accounted');
+      this.$emit('account-changed', this.name);
     }
-    watch: {
-      trans() {
+  },
 
-      }
-    }
+  created() {
+    this.init();
+  },
+
+  // watch: {
+    // transactions: {
+    //   handler(val) {
+    //     console.log('base')
+    //     this.$emit('account-changed', name)
+    //   },
+    //   deep: true
+    // }
+  // },
+  
+  components: {
+    Transaction
   }
+}
 </script>
 
 <style scoped lang="scss">
@@ -98,12 +122,6 @@
 
   input {
     // border: 5px solid white;
-    -webkit-box-shadow:
-      inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1);
-    -moz-box-shadow:
-      inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1);
     box-shadow:
       inset 0 0 8px  rgba(0,0,0,0.1),
             0 0 16px rgba(0,0,0,0.1);
