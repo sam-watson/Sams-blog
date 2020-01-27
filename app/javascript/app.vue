@@ -5,10 +5,12 @@
       @add-account="addAccount"/>
 
     <t-account-set title="Accounting Accounts" 
-      :accounts="accounts"/>
+      :accounts="accounts"
+      v-bind:canEdit="true"/>
 
     <t-account-set title="Balance Sheet" 
-      :accounts="balSheet"/>
+      :accounts="balSheet"
+      v-bind:canEdit="false"/>
   </div>
 </template>
 

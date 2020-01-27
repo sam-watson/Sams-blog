@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="number" v-model="transaction.amount" />
+    <input type="number" v-bind:readonly="readonly" v-model="transaction.amount" />
   </div>
 </template>
 
@@ -9,8 +9,15 @@
     name: "transaction",
 
     props: [
-      'transaction'
+      'transaction',
+      'canEdit'
     ],
+
+    computed: {
+      readonly() {
+        return !this.canEdit;
+      }
+    },
 
     watch: {
       transaction: {

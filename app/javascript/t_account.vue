@@ -3,16 +3,21 @@
     <h2>{{ name }}</h2>
 
     <div class="table">
-
+<!-- todo refactor cols into components -->
       <div class="col debit-side">
         <div class="header">Debits</div>
 
         <div class="inputs" v-for="debit in debits" v-bind:key="debit.id">
-          <transaction :transaction="debit" @transaction-changed="transactionChanged"/>
+          <transaction 
+            :transaction="debit" 
+            :canEdit="canEdit"
+            @transaction-changed="transactionChanged"/>
         </div>
 
         <div>
-          <button class="add-trans-btn" type="button" @click="addTransaction"
+          <button class="add-trans-btn" type="button" 
+            v-if="canEdit"
+            @click="addTransaction"
             value="debit">
             +
           </button>
@@ -23,11 +28,16 @@
         <div class="header">Credits</div>
 
         <div class="inputs" v-for="credit in credits" v-bind:key="credit.id">
-          <transaction :transaction="credit" @transaction-changed="transactionChanged"/>
+          <transaction 
+            :transaction="credit" 
+            :canEdit="canEdit"
+            @transaction-changed="transactionChanged"/>
         </div>
 
         <div>
-          <button class="add-trans-btn" type="button" @click="addTransaction"
+          <button class="add-trans-btn" type="button" 
+            v-if="canEdit"
+            @click="addTransaction"
             value="credit">
             +
           </button>
@@ -52,7 +62,8 @@ export default {
     transactions: {
       type: Array,
       default: () => []
-    }
+    },
+    canEdit: Boolean
   },
 
   computed: {

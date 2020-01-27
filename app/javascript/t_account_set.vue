@@ -7,6 +7,7 @@
       :key="account.id"
       :name="account.name"
       :transactions="account.transactions"
+      :canEdit="canEdit"
     />
   </div>
 </template>
@@ -19,6 +20,7 @@ export default {
   props: [
     'title',
     'accounts',
+    'canEdit'
   ],
 
   methods: {
