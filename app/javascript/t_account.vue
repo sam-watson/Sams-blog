@@ -68,10 +68,10 @@ export default {
 
   computed: {
     debits() {
-      return [...this.transactions.filter(e => e.side == 'debit')];
+      return this.transactions.filter(e => e.side == 'debit');
     },
     credits() {
-      return [...this.transactions.filter(e => e.side == 'credit')];
+      return this.transactions.filter(e => e.side == 'credit');
     }
   },
 
@@ -108,6 +108,9 @@ export default {
       display: flex;
       flex-direction: column;
       text-align: center;
+      min-width: 100px;
+      max-width: 225px;
+      min-height: 50px;
 
       .header {
         border-bottom: 2px solid black;
