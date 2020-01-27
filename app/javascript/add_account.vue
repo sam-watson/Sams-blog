@@ -1,10 +1,11 @@
 <template>
   <div>
-    <form @submit="addAccount">
+    <form @submit.prevent="addAccount">
       <input type="text" v-model="accountName" name="accountName"
         placeholder="Account Name"/>
       <select v-model="linkedName" name="linkedName" >
-        <option v-for="name in linkedNames" :value="name">{{ name }}</option>
+        <option v-for="name in linkedNames" :value="name">
+          {{ name }}</option>
       </select>
       <input type="submit" value='Add an account'/>
     </form>
@@ -25,8 +26,7 @@ export default {
     }
   }, 
   methods: {
-    addAccount(e) {
-      e.preventDefault();
+    addAccount() {
       this.$emit("add-account", this.accountName, this.linkedName);
     },
   }

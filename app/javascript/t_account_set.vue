@@ -7,7 +7,6 @@
       :key="account.id"
       :name="account.name"
       :transactions="account.transactions"
-      @account-changed="accountChanged"
     />
   </div>
 </template>
@@ -23,17 +22,15 @@ export default {
   ],
 
   methods: {
-    accountChanged(accountName, trans) {
-      console.log('set')
-      this.$emit('update-linked-account', accountName, trans)
-    },
+
     updateAccount(accountName, newAmount) {
       for (const account in this.accounts) {
         if (account.name = accountName) {
           account.transactions = [{id:uuid.v4(), amount: newAmount, side: 'debit'}];
         }
       }
-    }
+    },
+
   },
 
   components: {

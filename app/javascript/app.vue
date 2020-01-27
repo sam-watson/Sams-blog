@@ -1,18 +1,19 @@
 <template>
   <div>
     <p>{{ message }}</p>
-    <add-account @add-account="addAccount"/>
+    <add-account 
+      @add-account="addAccount"/>
 
     <t-account-set title="Accounting Accounts" 
-      :accounts="accounts"
-      @update-linked-account="updateLinkedAccount"
-    />
+      :accounts="accounts"/>
+
     <t-account-set title="Balance Sheet" 
       :accounts="balSheet"/>
   </div>
 </template>
 
 <script>
+import eventBus from './eventbus.js';
 import TAccountSet from './t_account_set.vue';
 import AddAccount from './add_account.vue';
 import uuid from 'uuid';
@@ -25,9 +26,9 @@ export default {
       accounts: [],
 
       balSheet: [
-        {id: 1, name: "Assets"},
-        {id: 2, name: "Liabilities"},
-        {id: 3, name: "Equity"},
+        this.createAccount("Assets"),
+        this.createAccount("Liabilities"),
+        this.createAccount("Equity"),
       ],
 
       accountLinks: {},
@@ -35,26 +36,48 @@ export default {
   },
 
   methods: {
+    createAccount(accountName) {
+      return {id: uuid.v4(), name: accountName, transactions: []};
+    },
+
     addAccount(accountName, linkedName) {
-      const newAccount = {
-        id: uuid.v4(),
-        name: accountName
-      }
-      this.accounts = [...this.accounts, newAccount];
+      this.accounts.push(this.createAccount(accountName));
       this.accountLinks[accountName] = linkedName;
     },
 
+    addTransaction(accountName, side) {
+      console.log('add ' + accountName + ' ' + side);
+      const acct = this.accounts.find(a => a.name = accountName);
+      if (acct) {
+        acct.transactions.push({id:uuid.v4(), amount: 0, side: side});
+      }
+    },
+
     updateLinkedAccount(accountName, trans) {
+      const srcAcct = this.accounts.find(a => a.name = accountName);
       const linkedName = this.accountLinks[accountName];
-      const srcAcct = this.accounts.find(e => e.name = accountName);
       const linkedAcct = this.balSheet.find(a => a.name == linkedName);
-      const linkedTrans = linkedAcct.transactions.find(t => t.id = trans.id);
+      const linkedTrans = linkedAcct.transactions.find(t => t.id == trans.id);
       if (linkedTrans == undefined) {
+        console.log('push ' + trans.side)
         linkedAcct.transactions.push(trans);
       } else {
+        console.log('update ' + trans.id)
         linkedTrans.amount = trans.amount;
       }
     }
+  },
+
+  mounted() {
+    eventBus.$on('add-transaction', (accountName, side) => {
+      console.log('adding trans')
+      this.addTransaction(accountName, side);
+    }),
+
+    eventBus.$on('account-changed', (accountName, trans) => {
+      console.log('adding trans')
+      this.updateLinkedAccount(accountName, trans);
+    })
   },
 
   components: {

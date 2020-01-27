@@ -10,12 +10,13 @@
 //
 // import '../css/application.css'
 
-import Vue from 'vue/dist/vue.esm'
+import Vue from 'vue/dist/vue.esm';
 
-import App from '../app.vue'
-Vue.component('app', App)
-// import TAccount from '../ttable.vue'
-// Vue.component('t-account', TAccount)
+import App from '../app.vue';
+Vue.component('app', App);
+// Vue.component('bus', new Vue());
+
+// export const Bus = new Vue();
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({

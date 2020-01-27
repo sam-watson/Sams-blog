@@ -15,7 +15,6 @@
     watch: {
       transaction: {
         handler() {
-          console.log('change')
           this.$emit('transaction-changed', this.transaction);
         },
         deep: true

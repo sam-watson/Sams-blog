@@ -6,19 +6,31 @@
 
       <div class="col debit-side">
         <div class="header">Debits</div>
+
         <div class="inputs" v-for="debit in debits" v-bind:key="debit.id">
-
           <transaction :transaction="debit" @transaction-changed="transactionChanged"/>
+        </div>
 
+        <div>
+          <button class="add-trans-btn" type="button" @click="addTransaction"
+            value="debit">
+            +
+          </button>
         </div>
       </div>
 
       <div class="col credit-side">
         <div class="header">Credits</div>
+
         <div class="inputs" v-for="credit in credits" v-bind:key="credit.id">
-
           <transaction :transaction="credit" @transaction-changed="transactionChanged"/>
+        </div>
 
+        <div>
+          <button class="add-trans-btn" type="button" @click="addTransaction"
+            value="credit">
+            +
+          </button>
         </div>
       </div>
 
@@ -28,6 +40,7 @@
 </template>
 
 <script>
+import eventBus from './eventbus.js';
 import Transaction from './transaction.vue';
 import uuid from 'uuid';
 
@@ -38,10 +51,7 @@ export default {
     name: String,
     transactions: {
       type: Array,
-      default: () => [
-        {id:uuid.v4(), amount:0, side: 'debit'},
-        {id:uuid.v4(), amount:0, side: 'credit'}
-      ]
+      default: () => []
     }
   },
 
@@ -56,22 +66,14 @@ export default {
 
   methods: {
     transactionChanged(trans) {
-      console.log('accounted');
-      console.log(trans);
-      console.log(this.transactions);
-      this.$emit('account-changed', this.name, trans);
+      eventBus.$emit('account-changed', this.name, trans);
+    },
+
+    addTransaction(e) {
+      console.log('add')
+      eventBus.$emit('add-transaction', this.name, e.target.value);
     }
   },
-
-  // watch: {
-    // transactions: {
-    //   handler(val) {
-    //     console.log('base')
-    //     this.$emit('account-changed', name)
-    //   },
-    //   deep: true
-    // }
-  // },
   
   components: {
     Transaction
@@ -106,6 +108,13 @@ export default {
         }
       }
     }
+  }
+
+  .add-trans-btn {
+    width: 20px;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
   }
 
   input {
