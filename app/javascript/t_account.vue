@@ -9,8 +9,7 @@
         <div class="inputs" v-for="debit in debits" v-bind:key="debit.id">
 
           <transaction :transaction="debit" @transaction-changed="transactionChanged"/>
-          <!-- <p>{{debit.amount}}</p> -->
-          <!-- <input type="number" v-model="debit.amount" /> -->
+
         </div>
       </div>
 
@@ -18,9 +17,8 @@
         <div class="header">Credits</div>
         <div class="inputs" v-for="credit in credits" v-bind:key="credit.id">
 
-          <transaction :transaction="credit" />
-          <!-- <p>{{credit.amount}}</p> -->
-          <!-- <input type="number" v-model="credit.amount" /> -->
+          <transaction :transaction="credit" @transaction-changed="transactionChanged"/>
+
         </div>
       </div>
 
@@ -40,10 +38,10 @@ export default {
     name: String,
     transactions: {
       type: Array,
-      default: () => []
-        // {id:uuid.v4(), amount:0, side: 'debit'},
-        // {id:uuid.v4(), amount:0, side: 'credit'}
-      // ]
+      default: () => [
+        {id:uuid.v4(), amount:0, side: 'debit'},
+        {id:uuid.v4(), amount:0, side: 'credit'}
+      ]
     }
   },
 
@@ -57,22 +55,12 @@ export default {
   },
 
   methods: {
-    init() {
-      if (this.transactions = []) {
-        this.transactions = [
-          {id:uuid.v4(), amount:0, side: 'debit'},
-          {id:uuid.v4(), amount:0, side: 'credit'}
-        ]
-      }
-    },
-    transactionChanged() {
+    transactionChanged(trans) {
       console.log('accounted');
-      this.$emit('account-changed', this.name);
+      console.log(trans);
+      console.log(this.transactions);
+      this.$emit('account-changed', this.name, trans);
     }
-  },
-
-  created() {
-    this.init();
   },
 
   // watch: {

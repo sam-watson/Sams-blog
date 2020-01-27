@@ -16,7 +16,7 @@
       transaction: {
         handler() {
           console.log('change')
-          this.$emit('transaction-changed');
+          this.$emit('transaction-changed', this.transaction);
         },
         deep: true
       }

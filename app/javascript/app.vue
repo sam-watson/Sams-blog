@@ -38,28 +38,22 @@ export default {
     addAccount(accountName, linkedName) {
       const newAccount = {
         id: uuid.v4(),
-        name: accountName,
-        transactions: []
+        name: accountName
       }
       this.accounts = [...this.accounts, newAccount];
       this.accountLinks[accountName] = linkedName;
     },
 
-    updateLinkedAccount(accountName) {
+    updateLinkedAccount(accountName, trans) {
       const linkedName = this.accountLinks[accountName];
-      const account = this.accounts.find(e => e.name = accountName);
-      const debits = account.transactions
-        .filter(e => e.side == 'debit')
-        .reduce((a, b) => a.amount + b.amount, 0);
-      const credits = account.transactions
-        .filter(e => e.side == 'credit')
-        .reduce((a, b) => a.amount + b.amount, 0);
-      console.log('update ' + accountName + ', ' + linkedName + ', ' + debits);
-      console.log(this.balSheet.find(a => a.name == linkedName).transactions);
-      this.balSheet.find(a => a.name == linkedName).transactions = [
-        {id:uuid.v4(), amount: debits, side: 'debit'},
-        {id:uuid.v4(), amount: credits, side: 'credit'},
-      ]
+      const srcAcct = this.accounts.find(e => e.name = accountName);
+      const linkedAcct = this.balSheet.find(a => a.name == linkedName);
+      const linkedTrans = linkedAcct.transactions.find(t => t.id = trans.id);
+      if (linkedTrans == undefined) {
+        linkedAcct.transactions.push(trans);
+      } else {
+        linkedTrans.amount = trans.amount;
+      }
     }
   },
 

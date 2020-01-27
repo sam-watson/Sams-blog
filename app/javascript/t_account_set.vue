@@ -23,9 +23,9 @@ export default {
   ],
 
   methods: {
-    accountChanged(accountName) {
+    accountChanged(accountName, trans) {
       console.log('set')
-      this.$emit('update-linked-account', accountName)
+      this.$emit('update-linked-account', accountName, trans)
     },
     updateAccount(accountName, newAmount) {
       for (const account in this.accounts) {
