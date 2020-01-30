@@ -13,7 +13,12 @@
  *= require_tree .
  *= require_self
  */
-  
+ 
+body,html {
+  margin: 0;
+  padding: 0;
+}
+
 .welcome-page {
   background: url(/assets/background.jpg) no-repeat center center fixed;
   background-size: cover;
@@ -22,7 +27,7 @@
 
 .menu {
   height: 100%;
-  width: 100px;
+  width: 400px;
   margin: 0 auto;  
   display: flex;
   flex-direction: column;
