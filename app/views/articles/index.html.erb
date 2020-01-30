@@ -1,29 +1,24 @@
-<div class="relative h-screen w-screen">
-  <div class="absolute abs-center-circle mx-auto flex items-center justify-center bg-transparent rounded-full shadow-xl">
-    <div class="flex-shrink-0">
-      <h1>Listing Articles</h1>
 
-      <%= link_to 'New article', new_article_path %>
+<div class='content'>
+  <div class='centered-content'>
+    <h1>Blaarg</h1>
 
-      <table>
-        <tr>
-          <th>Title</th>
-          <th>Text</th>
-          <th></th>
-        </tr>
+    <%= link_to 'New Article', new_article_path %>
 
-        <% @articles.each do |article| %>
-          <tr>
-            <td><%= article.title %></td>
-            <td><%= article.text %></td>
-            <td><%= link_to 'Show', article_path(article) %></td>
-            <td><%= link_to 'Edit', edit_article_path(article) %></td>
-            <td><%= link_to 'Destroy', article_path(article),
+      <% @articles.each do |article| %>
+        <div class='card'>
+          <h3><%= article.title %></h3>
+          <p class='article-text'>
+            <%= article.text %></p>
+          <div class='article-links'>
+            <span><%= link_to 'Show', article_path(article) %></span>
+            <span><%= link_to 'Edit', edit_article_path(article) %></span>
+            <span><%= link_to 'Destroy', article_path(article),
               method: :delete,
-              data: { confirm: 'Are you sure?' } %></td>
-          </tr>
-        <% end %>
-      </table>
-    </div>
+              data: { confirm: 'Are you sure?' } %></span>
+          </div>
+        </div>
+      <% end %>
+    </table>
   </div>
 </div>
