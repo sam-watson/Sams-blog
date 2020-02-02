@@ -1,24 +1,32 @@
 
 <div class='content'>
   <div class='centered-content'>
-    <h1>Blaarg</h1>
+    <h1 class='page-title'>Blaarg</h1>
 
-    <%= link_to 'New Article', new_article_path %>
+    <div class='nav-actions'>
+      <%= link_to '', root_path, class: "add-article fas fa-igloo"%>
+      <%= link_to '', new_article_path, class: "add-article fas fa-feather-alt"%>
+    </div>
 
-      <% @articles.each do |article| %>
-        <div class='card'>
-          <h3><%= article.title %></h3>
-          <p class='article-text'>
-            <%= article.text %></p>
-          <div class='article-links'>
-            <span><%= link_to 'Show', article_path(article) %></span>
-            <span><%= link_to 'Edit', edit_article_path(article) %></span>
-            <span><%= link_to 'Destroy', article_path(article),
-              method: :delete,
-              data: { confirm: 'Are you sure?' } %></span>
+    <% @articles.each do |article| %>
+      <div class='article'>
+        <%= link_to(article_path(article), class: 'article-link') do %>
+          <div class='card'>
+            <h3><%= article.title %></h3>
+
+            <p class='article-text'>
+              <%= article.text %></p>
           </div>
+        <% end %>
+        <div class='article-actions'>
+          <span><%= link_to '', edit_article_path(article), class: "fas fa-hotdog" %></span>
+          <span><%= link_to '', article_path(article), class: "fas fa-toilet",
+            method: :delete,
+            data: { confirm: 'Are you sure?' } %></span>
         </div>
-      <% end %>
-    </table>
+      </div>
+
+    <% end %>
+
   </div>
 </div>
