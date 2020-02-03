@@ -6,6 +6,7 @@
       <t-account
         v-for="account in accounts"
         :key="account.id"
+        :id="account.id"
         :name="account.name"
         :transactions="account.transactions"
         :canEdit="canEdit"
@@ -52,5 +53,9 @@ h1 {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
+}
+
+t-account {
+  margin: 0 5px;
 }
 </style>

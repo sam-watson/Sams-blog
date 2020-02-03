@@ -23,7 +23,7 @@ import uuid from 'uuid';
 export default {
   data: function () {
     return {
-      message: "We'll learn Accounting! YAY!",
+      message: "We're gonna learn Accounting! YAY!",
 
       accounts: [],
 
@@ -58,11 +58,10 @@ export default {
       this.accountLinks[accountName] = linkedName;
     },
 
-    addTransaction(accountName, side) {
-      console.log('add ' + accountName + ' ' + side);
-      const acct = this.accounts.find(a => a.name = accountName);
+    addTransaction(accountId, side) {
+      const acct = this.accounts.find(a => a.id == accountId);
       if (acct) {
-        acct.transactions.push({id:uuid.v4(), amount: 0, side: side});
+          acct.transactions.push({id:uuid.v4(), amount: 0, side: side});
       }
     },
 
@@ -72,29 +71,29 @@ export default {
       const linkedAcct = this.balSheet.find(a => a.name == linkedName);
       const linkedTrans = linkedAcct.transactions.find(t => t.id == trans.id);
       if (linkedTrans == undefined) {
-        console.log('push ' + trans.side)
+        console.log('push ' + trans.side);
         linkedAcct.transactions.push(trans);
       } else {
-        console.log('update ' + trans.id)
+        console.log('update ' + trans.id);
         linkedTrans.amount = trans.amount;
       }
     }
   },
 
   created() {
-    for (const acct in accountLinks) {
-      addAcount(acct.key);
+    for (let [key, value] of Object.entries(this.accountLinks)) {
+      this.addAccount(key, value);
     }
   },
 
   mounted() {
-    eventBus.$on('add-transaction', (accountName, side) => {
-      console.log('adding trans')
-      this.addTransaction(accountName, side);
+    eventBus.$on('add-transaction', (accountId, side) => {
+      console.log('adding trans to ' + accountId);
+      this.addTransaction(accountId, side);
     }),
 
     eventBus.$on('account-changed', (accountName, trans) => {
-      console.log('adding trans')
+      console.log('changing trans');
       this.updateLinkedAccount(accountName, trans);
     })
   },

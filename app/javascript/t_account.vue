@@ -58,6 +58,7 @@ export default {
   name: "t-account",
 
   props: {
+    id: String,
     name: String,
     transactions: {
       type: Array,
@@ -81,8 +82,8 @@ export default {
     },
 
     addTransaction(e) {
-      console.log('add')
-      eventBus.$emit('add-transaction', this.name, e.target.value);
+      console.log('clicked ' + this.name + ' ' + this.id + ' ' + e.target.value)
+      eventBus.$emit('add-transaction', this.id, e.target.value);
     }
   },
   
@@ -103,6 +104,7 @@ export default {
     grid-template-columns: auto auto;
     max-width: 500px;
     margin: auto;
+    padding: 3px;
 
     .col {
       display: flex;
@@ -122,6 +124,16 @@ export default {
         }
       }
     }
+  }
+
+  button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: white;
   }
 
   .add-trans-btn {
