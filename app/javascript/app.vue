@@ -1,14 +1,14 @@
 <template>
   <div>
     <p>{{ message }}</p>
-    <add-account 
+    <add-account
       @add-account="addAccount"/>
 
-    <t-account-set title="Accounting Accounts" 
+    <t-account-set title="Ledger Accounts"
       :accounts="accounts"
       v-bind:canEdit="true"/>
 
-    <t-account-set title="Balance Sheet" 
+    <t-account-set title="Balance Sheet"
       :accounts="balSheet"
       v-bind:canEdit="false"/>
   </div>
@@ -33,7 +33,18 @@ export default {
         this.createAccount("Equity"),
       ],
 
-      accountLinks: {},
+      accountLinks: {
+        Cash: 'Assets',
+        Receivables: 'Assets',
+        Inventory: 'Assets',
+        Investments: 'Assets',
+        Land: 'Assets',
+        Equipment: 'Assets',
+        Payables: 'Liabilities',
+        Deposits: 'Liabilities',
+        Stock: 'Equity',
+        Earnings: 'Equity'
+      },
     }
   },
 
@@ -67,6 +78,12 @@ export default {
         console.log('update ' + trans.id)
         linkedTrans.amount = trans.amount;
       }
+    }
+  },
+
+  created() {
+    for (const acct in accountLinks) {
+      addAcount(acct.key);
     }
   },
 
