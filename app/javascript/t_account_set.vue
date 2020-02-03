@@ -23,7 +23,8 @@ export default {
   props: [
     'title',
     'accounts',
-    'canEdit'
+    'canEdit',
+    'isEquation'
   ],
 
   methods: {

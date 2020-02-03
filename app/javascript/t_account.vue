@@ -110,8 +110,7 @@ export default {
       display: flex;
       flex-direction: column;
       text-align: center;
-      min-width: 100px;
-      max-width: 225px;
+      width: 100px;
       min-height: 50px;
 
       .header {
@@ -141,17 +140,6 @@ export default {
     margin: 0 auto;
     text-align: center;
     font-weight: bold;
-  }
-
-  input {
-    // border: 5px solid white;
-    box-shadow:
-      inset 0 0 8px  rgba(0,0,0,0.1),
-            0 0 16px rgba(0,0,0,0.1);
-    padding: 5px;
-    background: rgba(255,255,255,0.5);
-    margin: 0 0 10px 0;
-    text-align: right;
   }
 
 </style>

@@ -6,10 +6,12 @@
 
     <t-account-set title="Ledger Accounts"
       :accounts="accounts"
+      v:bind:isEquation="false"
       v-bind:canEdit="true"/>
 
     <t-account-set title="Balance Sheet"
       :accounts="balSheet"
+      v:bind:isEquation="true"
       v-bind:canEdit="false"/>
   </div>
 </template>
