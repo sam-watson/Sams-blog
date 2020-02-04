@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <form @submit.prevent="addAccount">
       <input type="text" v-model="accountName" name="accountName"
         placeholder="Account Name"/>
@@ -34,9 +34,14 @@ export default {
 </script>
 
 <style scoped>
-  div {
+  .container > form {
     display: flex;
-    flex-direction: row;
     justify-content: center;
+  }
+  @media (max-width: 700px) {
+    .container > form {
+      flex-direction: column;
+      align-items: center;
+    }
   }
 </style>

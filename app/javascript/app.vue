@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class='content'>
     <p>{{ message }}</p>
     <add-account
       @add-account="addAccount"/>

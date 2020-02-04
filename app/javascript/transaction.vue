@@ -35,7 +35,7 @@
     // border: 5px solid white;
     // background: rgba(255,255,255,0.5);
     background-color: Transparent;
-    border: none;
+    border: none;  
     box-shadow:
       inset 0 0 8px  rgba(0,0,0,0.1),
             0 0 16px rgba(0,0,0,0.1);
