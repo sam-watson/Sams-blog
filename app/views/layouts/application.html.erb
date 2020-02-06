@@ -15,6 +15,14 @@
   </head>
 
   <body> 
+    <% if content_for?(:navbar) %>
+      <%= yield(:navbar) %>
+    <% else %>
+      <%# default navbar %>
+      <div class="navbar">
+        <%= link_to '', root_path, class: "nav-home fas fa-igloo"%>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>
