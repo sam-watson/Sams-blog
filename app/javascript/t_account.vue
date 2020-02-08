@@ -79,6 +79,7 @@ export default {
   methods: {
     transactionChanged(trans) {
       eventBus.$emit('account-changed', this.name, trans);
+      this.$emit('account-changed');
     },
 
     addTransaction(e) {

@@ -6,12 +6,12 @@
 
     <t-account-set title="Ledger Accounts"
       :accounts="accounts"
-      v:bind:isEquation="false"
+      v-bind:equalsPos=-1
       v-bind:canEdit="true"/>
 
     <t-account-set title="Balance Sheet"
       :accounts="balSheet"
-      v:bind:isEquation="true"
+      v-bind:equalsPos=0
       v-bind:canEdit="false"/>
   </div>
 </template>
@@ -68,16 +68,14 @@ export default {
     },
 
     updateLinkedAccount(accountName, trans) {
-      const srcAcct = this.accounts.find(a => a.name = accountName);
+      const srcAcct = this.accounts.find(a => a.name == accountName);
       const linkedName = this.accountLinks[accountName];
-      const linkedAcct = this.balSheet.find(a => a.name == linkedName);
-      const linkedTrans = linkedAcct.transactions.find(t => t.id == trans.id);
-      if (linkedTrans == undefined) {
-        console.log('push ' + trans.side);
-        linkedAcct.transactions.push(trans);
-      } else {
-        console.log('update ' + trans.id);
-        linkedTrans.amount = trans.amount;
+      if (linkedName) {
+        const linkedAcct = this.balSheet.find(a => a.name == linkedName);
+        if (!linkedAcct.transactions.includes(trans)) {
+          console.log('push new ' + trans.side + ' ' + trans.amount);
+          linkedAcct.transactions.push(trans);
+        }
       }
     }
   },
