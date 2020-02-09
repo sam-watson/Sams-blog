@@ -11,7 +11,9 @@
           <transaction 
             :transaction="debit" 
             :canEdit="canEdit"
-            @transaction-changed="transactionChanged"/>
+            @transaction-changed="transactionChanged"
+            @delete-me="deleteTransaction" 
+          />
         </div>
 
         <div>
@@ -28,10 +30,12 @@
         <div class="header">Credits</div>
 
         <div class="inputs" v-for="credit in credits" v-bind:key="credit.id">
-          <transaction 
+          <transaction
             :transaction="credit" 
             :canEdit="canEdit"
-            @transaction-changed="transactionChanged"/>
+            @transaction-changed="transactionChanged"
+            @delete-me="deleteTransaction"
+          />
         </div>
 
         <div>
@@ -85,12 +89,17 @@ export default {
     addTransaction(e) {
       console.log('clicked ' + this.name + ' ' + this.id + ' ' + e.target.value)
       eventBus.$emit('add-transaction', this.id, e.target.value);
+    },
+
+    deleteTransaction(transaction) {
+      console.log('pls delete')
+      eventBus.$emit('delete-transaction', this, transaction);
     }
   },
   
   components: {
     Transaction
-  }
+  },
 }
 </script>
 

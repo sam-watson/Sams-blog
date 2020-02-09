@@ -1,6 +1,12 @@
 <template>
   <div>
-    <input type="number" v-bind:readonly="readonly" v-model.number="transaction.amount" />
+    <input type="number"
+      v-focus 
+      @blur="checkValue" 
+      @keyup.enter="checkValue" 
+      placeholder=0
+      v-bind:readonly="readonly"
+      v-model.number="transaction.amount" />
   </div>
 </template>
 
@@ -20,6 +26,15 @@
     computed: {
       readonly() {
         return !this.canEdit;
+      }
+    },
+
+    methods: {
+      checkValue() {
+        if (!this.transaction.amount) {
+          console.log('delme')
+          this.$emit('delete-me', this.transaction);
+        }        
       }
     },
 

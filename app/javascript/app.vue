@@ -63,8 +63,18 @@ export default {
     addTransaction(accountId, side) {
       const acct = this.accounts.find(a => a.id == accountId);
       if (acct) {
-          acct.transactions.push({id:uuid.v4(), amount: 0, side: side});
+          acct.transactions.push({id:uuid.v4(), amount: null, side: side});
       }
+    },
+
+    deleteTransaction(account, trans) {
+      console.log('deletion')
+      const linkedName = this.accountLinks[account.name];
+      if (linkedName) {
+        const linkedAcct = this.balSheet.find(a => a.name == linkedName);
+        linkedAcct.transactions.splice(linkedAcct.transactions.indexOf(trans, 0), 1);
+      }
+      account.transactions.splice(account.transactions.indexOf(trans, 0), 1);
     },
 
     updateLinkedAccount(accountName, trans) {
@@ -87,9 +97,14 @@ export default {
   },
 
   mounted() {
+
     eventBus.$on('add-transaction', (accountId, side) => {
       console.log('adding trans to ' + accountId);
       this.addTransaction(accountId, side);
+    }),
+
+    eventBus.$on('delete-transaction', (account, trans) => {
+      this.deleteTransaction(account, trans);
     }),
 
     eventBus.$on('account-changed', (accountName, trans) => {

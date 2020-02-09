@@ -14,9 +14,12 @@ import Vue from 'vue/dist/vue.esm';
 
 import App from '../app.vue';
 Vue.component('app', App);
-// Vue.component('bus', new Vue());
 
-// export const Bus = new Vue();
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus();
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({

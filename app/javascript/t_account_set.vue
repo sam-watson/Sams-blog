@@ -10,14 +10,16 @@
           :id="account.id"
           :name="account.name"
           :transactions="account.transactions"
-          :canEdit="canEdit" />
+          :canEdit="canEdit" 
+        />
 
         <i v-if="equalsPos >= 0 && index != accounts.length - 1" 
           ref="eqsymbol"
           v-bind:class="[
             'equation', 
             'fas', 
-            index == equalsPos ? (isEqual ? 'fa-equals' : 'fa-not-equal') : 'fa-plus']">
+            index == equalsPos ? (isEqual ? 'fa-equals' : 'fa-not-equal') : 'fa-plus']
+          ">
         </i>
 
       </div>
@@ -52,8 +54,6 @@ export default {
         leftHand += i <= this.equalsPos ? this.sumAccount(this.accounts[i]) : 0;
         rightHand += i > this.equalsPos ? this.sumAccount(this.accounts[i]) : 0;
       }
-      console.log(leftHand)
-      console.log(rightHand);
       return (leftHand - rightHand);
     },
 
