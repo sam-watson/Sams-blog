@@ -16,8 +16,10 @@ import App from '../app.vue';
 Vue.component('app', App);
 
 Vue.directive('focus', {
-  inserted: function (el) {
-    el.focus();
+  inserted: function (el, binding) {
+    if (binding.arg == 'active' && binding.value) {
+      el.focus();
+    }
   }
 });
 

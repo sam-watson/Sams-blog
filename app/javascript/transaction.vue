@@ -1,7 +1,7 @@
 <template>
   <div>
     <input type="number"
-      v-focus 
+      v-focus:active="canEdit"
       @blur="checkValue" 
       @keyup.enter="checkValue" 
       placeholder=0

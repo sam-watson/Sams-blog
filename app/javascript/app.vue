@@ -1,6 +1,6 @@
 <template>
   <div class='content'>
-    <p>{{ message }}</p>
+    <p>{{ appTitle }}</p>
     <add-account
       @add-account="addAccount"/>
 
@@ -25,7 +25,7 @@ import uuid from 'uuid';
 export default {
   data: function () {
     return {
-      message: "We're gonna learn Accounting! YAY!",
+      appTitle: "Accountant 9000",
 
       accounts: [],
 
