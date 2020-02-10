@@ -7,7 +7,9 @@
     <t-account-set title="Ledger Accounts"
       :accounts="accounts"
       v-bind:equalsPos=-1
-      v-bind:canEdit="true"/>
+      v-bind:canEdit="true"
+      @highlight="highlight"
+    />
 
     <t-account-set title="Balance Sheet"
       :accounts="balSheet"
@@ -25,7 +27,7 @@ import uuid from 'uuid';
 export default {
   data: function () {
     return {
-      message: "We're gonna learn Accounting! YAY!",
+      message: "Accountant 9000",
 
       accounts: [],
 
@@ -87,6 +89,15 @@ export default {
           linkedAcct.transactions.push(trans);
         }
       }
+    },
+
+    highlight(account) {
+      const linkedName = this.accountLinks[account.name];
+      if (linkedName) {
+        const linkedAcct = this.balSheet.find(a => a.name == linkedName);
+        if (linkedAcct) {
+          linkedAcct.isLit = true;
+        }
     }
   },
 

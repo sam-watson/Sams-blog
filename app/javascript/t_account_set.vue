@@ -11,6 +11,7 @@
           :name="account.name"
           :transactions="account.transactions"
           :canEdit="canEdit" 
+          @hover="highlightLinks"
         />
 
         <i v-if="equalsPos >= 0 && index != accounts.length - 1" 
@@ -59,6 +60,10 @@ export default {
 
     sumAccount(account) {
       return account.transactions.reduce((sum, tx) => sum + (tx.side == 'debit' ? tx.amount : -tx.amount), 0);
+    },
+
+    highlightLinks(e) {
+      this.$emit('highlight', e.target.props.account);
     }
   },
 

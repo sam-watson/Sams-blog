@@ -27,7 +27,7 @@
       </div>
 
       <div class="col credit-side">
-        <div class="header">Credits</div>
+        <div v-bind:class="{'header':true, 'isLit':isLit}">Credits</div>
 
         <div class="inputs" v-for="credit in credits" v-bind:key="credit.id">
           <transaction
@@ -68,7 +68,8 @@ export default {
       type: Array,
       default: () => []
     },
-    canEdit: Boolean
+    canEdit: Boolean,
+    isLit: Boolean
   },
 
   computed: {
