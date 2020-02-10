@@ -54,7 +54,7 @@ export default {
         leftHand += i <= this.equalsPos ? this.sumAccount(this.accounts[i]) : 0;
         rightHand += i > this.equalsPos ? this.sumAccount(this.accounts[i]) : 0;
       }
-      return (leftHand - rightHand);
+      return (leftHand + rightHand);
     },
 
     sumAccount(account) {
