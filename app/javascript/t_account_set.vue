@@ -109,10 +109,10 @@ t-account {
 }
 
 .fa-equals {
-  color: lightgreen;
+  color: limegreen;
 }
 .fa-not-equal {
-  color: pink;
+  color: lightcoral;
 }
 
 </style>
