@@ -54,7 +54,12 @@ export default {
 
   methods: {
     createAccount(accountName) {
-      return {id: uuid.v4(), name: accountName, transactions: []};
+      return {
+        id: uuid.v4(), 
+        name: accountName, 
+        transactions: [],
+        display: ''
+      };
     },
 
     addAccount(accountName, linkedName) {
@@ -62,11 +67,8 @@ export default {
       this.accountLinks[accountName] = linkedName;
     },
 
-    addTransaction(accountId, side) {
-      const acct = this.accounts.find(a => a.id == accountId);
-      if (acct) {
-          acct.transactions.push({id:uuid.v4(), amount: null, side: side});
-      }
+    addTransaction(account, side) {
+      account.transactions.push({id:uuid.v4(), amount: null, side: side});
     },
 
     deleteTransaction(account, trans) {
@@ -79,9 +81,8 @@ export default {
       account.transactions.splice(account.transactions.indexOf(trans, 0), 1);
     },
 
-    updateLinkedAccount(accountName, trans) {
-      const srcAcct = this.accounts.find(a => a.name == accountName);
-      const linkedName = this.accountLinks[accountName];
+    updateLinkedAccount(srcAcct, trans) {
+      const linkedName = this.accountLinks[srcAcct.name];
       if (linkedName) {
         const linkedAcct = this.balSheet.find(a => a.name == linkedName);
         if (!linkedAcct.transactions.includes(trans)) {
@@ -91,13 +92,16 @@ export default {
       }
     },
 
-    highlight(account) {
-      const linkedName = this.accountLinks[account.name];
+    highlight(srcAcct, isOn) {
+      srcAcct.display = isOn ? 'lit' : '';
+      const linkedName = this.accountLinks[srcAcct.name];
       if (linkedName) {
         const linkedAcct = this.balSheet.find(a => a.name == linkedName);
         if (linkedAcct) {
-          linkedAcct.isLit = true;
+          linkedAcct.display = isOn ? 'lit' : '';
+          console.log('litted' + isOn)
         }
+      }
     }
   },
 
@@ -109,18 +113,23 @@ export default {
 
   mounted() {
 
-    eventBus.$on('add-transaction', (accountId, side) => {
-      console.log('adding trans to ' + accountId);
-      this.addTransaction(accountId, side);
+    eventBus.$on('add-transaction', (account, side) => {
+      console.log('adding trans to ' + account);
+      this.addTransaction(account, side);
     }),
 
     eventBus.$on('delete-transaction', (account, trans) => {
       this.deleteTransaction(account, trans);
     }),
 
-    eventBus.$on('account-changed', (accountName, trans) => {
+    eventBus.$on('account-changed', (account, trans) => {
       console.log('changing trans');
-      this.updateLinkedAccount(accountName, trans);
+      this.updateLinkedAccount(account, trans);
+    }),
+
+    eventBus.$on('highlight', (account, isOn) => {
+      console.log('hi')
+      this.highlight(account, isOn);
     })
   },
 

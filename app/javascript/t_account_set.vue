@@ -8,10 +8,8 @@
 
         <t-account
           :id="account.id"
-          :name="account.name"
-          :transactions="account.transactions"
+          :account="account"
           :canEdit="canEdit" 
-          @hover="highlightLinks"
         />
 
         <i v-if="equalsPos >= 0 && index != accounts.length - 1" 
@@ -41,13 +39,6 @@ export default {
   },
 
   methods: {
-    updateAccount(accountName, newAmount) {
-      for (const account in this.accounts) {
-        if (account.name = accountName) {
-          account.transactions = [{id:uuid.v4(), amount: newAmount, side: 'debit'}];
-        }
-      }
-    },
 
     evaluateEquation() {
       let leftHand = 0, rightHand = 0;
@@ -63,6 +54,7 @@ export default {
     },
 
     highlightLinks(e) {
+      console.log('hover')
       this.$emit('highlight', e.target.props.account);
     }
   },
