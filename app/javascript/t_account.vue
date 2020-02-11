@@ -4,7 +4,7 @@
 
     <div class="table">
 <!-- todo refactor cols into components -->
-      <div class="col debit-side">
+      <div class="col debit side">
         <div class="header">Debits</div>
 
         <div class="inputs" v-for="debit in debits" v-bind:key="debit.id">
@@ -27,7 +27,9 @@
         </div>
       </div>
 
-      <div class="col credit-side">
+      <div class="col divider"></div>
+
+      <div class="col credit side">
         <div class="header">Credits</div>
 
         <div class="inputs" v-for="credit in credits" v-bind:key="credit.id">
@@ -112,26 +114,29 @@ export default {
 
   .table {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: auto 2px auto;
+    grid-template-rows: auto auto;
     max-width: 500px;
     margin: auto;
     padding: 3px;
+
+    .header {
+      border-bottom: 2px solid black;
+    }
 
     .col {
       display: flex;
       flex-direction: column;
       text-align: center;
-      width: 100px;
-      min-height: 50px;
 
-      .header {
-        border-bottom: 2px solid black;
+      &.side {
+        width: 100px;
+        min-height: 50px;
       }
 
-      &:nth-child(1) {
-        :nth-child(n+2) {
-          border-right: 2px solid black;
-        }
+      &.divider {
+        height: 100%;
+        background-color: black;
       }
     }
   }
