@@ -8,8 +8,7 @@
 
         <t-account
           :id="account.id"
-          :name="account.name"
-          :transactions="account.transactions"
+          :account="account"
           :canEdit="canEdit" 
         />
 
@@ -40,13 +39,6 @@ export default {
   },
 
   methods: {
-    updateAccount(accountName, newAmount) {
-      for (const account in this.accounts) {
-        if (account.name = accountName) {
-          account.transactions = [{id:uuid.v4(), amount: newAmount, side: 'debit'}];
-        }
-      }
-    },
 
     evaluateEquation() {
       let leftHand = 0, rightHand = 0;
@@ -59,6 +51,11 @@ export default {
 
     sumAccount(account) {
       return account.transactions.reduce((sum, tx) => sum + (tx.side == 'debit' ? tx.amount : -tx.amount), 0);
+    },
+
+    highlightLinks(e) {
+      console.log('hover')
+      this.$emit('highlight', e.target.props.account);
     }
   },
 

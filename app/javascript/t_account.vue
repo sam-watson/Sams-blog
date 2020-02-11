@@ -1,6 +1,10 @@
 <template>
   <div>
-    <h2>{{ name }}</h2>
+    <h2 @mouseover="lightLinks"
+        @mouseleave="unlightLinks"
+        v-bind:class="account.display">
+      {{ account.name }}
+    </h2>
 
     <div class="table">
 <!-- todo refactor cols into components -->
@@ -65,38 +69,40 @@ export default {
   name: "t-account",
 
   props: {
-    id: String,
-    name: String,
-    transactions: {
-      type: Array,
-      default: () => []
-    },
-    canEdit: Boolean
+    account: Object,
+    canEdit: Boolean,
   },
 
   computed: {
     debits() {
-      return this.transactions.filter(e => e.side == 'debit');
+      return this.account.transactions.filter(e => e.side == 'debit');
     },
     credits() {
-      return this.transactions.filter(e => e.side == 'credit');
+      return this.account.transactions.filter(e => e.side == 'credit');
     }
   },
 
   methods: {
     transactionChanged(trans) {
-      eventBus.$emit('account-changed', this.name, trans);
+      eventBus.$emit('account-changed', this.account, trans);
       this.$emit('account-changed');
     },
 
     addTransaction(e) {
-      console.log('clicked ' + this.name + ' ' + this.id + ' ' + e.target.value)
-      eventBus.$emit('add-transaction', this.id, e.target.value);
+      console.log('clicked ' + this.account.name + ' ' + this.account.id + ' ' + e.target.value)
+      eventBus.$emit('add-transaction', this.account, e.target.value);
     },
 
     deleteTransaction(transaction) {
       console.log('pls delete')
-      eventBus.$emit('delete-transaction', this, transaction);
+      eventBus.$emit('delete-transaction', this.account, transaction);
+    },
+
+    lightLinks(e) {
+      eventBus.$emit('highlight', this.account, true);
+    },
+    unlightLinks(e) {
+      eventBus.$emit('highlight', this.account, false);
     }
   },
   
@@ -156,6 +162,10 @@ export default {
     margin: 0 auto;
     text-align: center;
     font-weight: bold;
+  }
+
+  .lit {
+    color: gold;
   }
 
 </style>
