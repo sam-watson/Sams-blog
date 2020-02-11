@@ -14,6 +14,7 @@
             @transaction-changed="transactionChanged"
             @delete-me="deleteTransaction" 
           />
+          <div v-if="debits.count == 0"></div>
         </div>
 
         <div>
