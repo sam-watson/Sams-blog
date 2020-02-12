@@ -27,7 +27,7 @@ import uuid from 'uuid';
 export default {
   data: function () {
     return {
-      appTitle: "Accountant 9000",
+      appTitle: "Accountomator 9000",
 
       accounts: [],
 

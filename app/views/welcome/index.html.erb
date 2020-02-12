@@ -1,14 +1,12 @@
-<% content_for :navbar do %>
-  <div></div>
-<% end %>
 
 <div class="welcome-page">
 
   <div class="menu">
     <h1 class="page-title">Hallo!</h1>
-    <h5 class="sub-title">you've discovered Sam Watson's humble web page <br> welcome!</h5>
+    <h5 class="sub-title">you've discovered Sam Watson's humble web page<br>welcome!</h5>
     <%= link_to 'Rails Blog', controller: 'articles' %><br>
-    <%= link_to 'VueJS', controller: 'learn_accounting' %><br>
+    <%= link_to 'VueJS App', controller: 'learn_accounting' %><br>
+    <%= link_to 'BitLinx', 'https://damp-brook-82840.herokuapp.com/', target: :_blank  %><br>
     <%= link_to 'Resume', '/SamWatson-Resume.pdf', target: :_blank %><br>
     <%= link_to 'Github', 'https://github.com/sam-watson', target: :_blank %><br>
   </div>
