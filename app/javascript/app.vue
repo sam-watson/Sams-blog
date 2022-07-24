@@ -2,6 +2,7 @@
   <div class='content'>
     <p>{{ appTitle }}</p>
     <add-account
+      :linkedAccountNames="balanceSheet"
       @add-account="addAccount"/>
 
     <t-account-set title="Ledger Accounts"
@@ -12,7 +13,7 @@
     />
 
     <t-account-set title="Balance Sheet"
-      :accounts="balSheet"
+      :accounts="balanceSheet"
       v-bind:equalsPos=0
       v-bind:canEdit="false"/>
   </div>
@@ -31,23 +32,23 @@ export default {
 
       accounts: [],
 
-      balSheet: [
-        this.createAccount("Assets"),
-        this.createAccount("Liabilities"),
-        this.createAccount("Equity"),
+      balanceSheet: [
+        { id: 1, account: this.createAccount("Assets") },
+        { id: 2, account: this.createAccount("Liabilities") },
+        { id: 3, account: this.createAccount("Equity") },
       ],
 
       accountLinks: {
-        Cash: 'Assets',
-        Receivables: 'Assets',
-        Inventory: 'Assets',
-        Investments: 'Assets',
-        Land: 'Assets',
-        Equipment: 'Assets',
-        Payables: 'Liabilities',
-        Deposits: 'Liabilities',
-        Stock: 'Equity',
-        Earnings: 'Equity'
+        Cash: 1,
+        Receivables: 1,
+        Inventory: 1,
+        Investments: 1,
+        Land: 1,
+        Equipment: 1,
+        Payables: 2,
+        Deposits: 2,
+        Stock: 3,
+        Earnings: 3
       },
     }
   },
@@ -62,9 +63,9 @@ export default {
       };
     },
 
-    addAccount(accountName, linkedName) {
+    addAccount(accountName, linkedId) {
       this.accounts.push(this.createAccount(accountName));
-      this.accountLinks[accountName] = linkedName;
+      this.accountLinks[accountName] = linkedId;
     },
 
     addTransaction(account, side) {
@@ -73,34 +74,51 @@ export default {
 
     deleteTransaction(account, trans) {
       console.log('deletion')
-      const linkedName = this.accountLinks[account.name];
-      if (linkedName) {
-        const linkedAcct = this.balSheet.find(a => a.name == linkedName);
+      const linkedId = this.accountLinks[account.name];
+      if (linkedId) {
+        const linkedAcct = this.balanceSheet.find(a => a.Id == linkedId).acct;
         linkedAcct.transactions.splice(linkedAcct.transactions.indexOf(trans, 0), 1);
       }
       account.transactions.splice(account.transactions.indexOf(trans, 0), 1);
     },
 
-    updateLinkedAccount(srcAcct, trans) {
-      const linkedName = this.accountLinks[srcAcct.name];
-      if (linkedName) {
-        const linkedAcct = this.balSheet.find(a => a.name == linkedName);
-        if (!linkedAcct.transactions.includes(trans)) {
-          console.log('push new ' + trans.side + ' ' + trans.amount);
+    updateBalanceSheet(srcAcct, trans) {
+      const linkedId = this.accountLinks[srcAcct.name];
+      if (linkedId) {
+        const linkedAcct = this.balanceSheet.find(a => a.Id == linkedId);
+        if (linkedAcct.transactions.includes(trans) == false) {
           linkedAcct.transactions.push(trans);
         }
       }
     },
 
-    highlight(srcAcct, isOn) {
-      srcAcct.display = isOn ? 'lit' : '';
-      const linkedName = this.accountLinks[srcAcct.name];
-      if (linkedName) {
-        const linkedAcct = this.balSheet.find(a => a.name == linkedName);
-        if (linkedAcct) {
-          linkedAcct.display = isOn ? 'lit' : '';
+    balanceSheetContains(account) {
+      return this.balanceSheet.find(a => a.account == account);
+    },
+
+    highlightRelated(srcAcct, toggleOn) {
+      let relatedAccts = [srcAcct];
+
+      let balSheetItem = this.balanceSheet.find(a => a.account == srcAcct);
+      if (balSheetItem) {
+        for (let [key, value] of Object.entries(this.accountLinks)) {
+          if (value == balSheetItem.id)
+            relatedAccts.push(accounts.find(a => a.name == key));
         }
       }
+      else {
+        let linkedBalSheetId = this.accountLinks[srcAcct.name];
+        if (linkedBalSheetId > 0)
+          relatedAccts.push(this.balanceSheet.find(a => a.id = linkedBalSheetId));
+      }
+
+      for (acct in relatedAccts) {
+        highlight(acct, toggleOn);
+      }
+    },
+
+    highlight(acct, toggleOn) {
+      acct.display = toggleOn ? 'lit' : '';
     }
   },
 
@@ -123,11 +141,11 @@ export default {
 
     eventBus.$on('account-changed', (account, trans) => {
       console.log('changing trans');
-      this.updateLinkedAccount(account, trans);
+      this.updateBalanceSheet(account, trans);
     }),
 
     eventBus.$on('highlight', (account, isOn) => {
-      this.highlight(account, isOn);
+      this.highlightRelated(account, isOn);
     })
   },
 

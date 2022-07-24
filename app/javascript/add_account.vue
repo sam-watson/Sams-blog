@@ -3,10 +3,12 @@
     <form @submit.prevent="addAccount">
       <input type="text" v-model="accountName" name="accountName"
         placeholder="Account Name"/>
-      <select v-model="linkedName" name="linkedName" >
-        <option v-for="name in linkedNames" :value="name">
-          {{ name }}</option>
+
+      <select v-model="linkedAccountName" name="linkedAccountName" >
+        <option v-for="item in linkedAccountNames" :value="item.id">
+          {{ item.account.name }}</option>
       </select>
+
       <input type="submit" value='Add an account'/>
     </form>
   </div>
@@ -19,15 +21,14 @@ export default {
   data: function () {
     return {
       accountName: null,
-      linkedName: null,
-    	linkedNames: [
-      	'Assets', 'Liabilities', 'Equity'
-      ]
+      linkedAccountName: null,
+    	linkedAccountNames: []
     }
   }, 
   methods: {
     addAccount() {
-      this.$emit("add-account", this.accountName, this.linkedName);
+      if (this.accountName)
+      this.$emit("add-account", this.accountName, this.linkedAccountName);
     },
   }
 }
